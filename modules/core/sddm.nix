@@ -60,6 +60,7 @@ in {
       wayland.enable = true;
       theme = "sddm-astronaut-theme";
     };
+    defaultSession = "hyprland";
   };
 
   environment.systemPackages = [sddm-astronaut];

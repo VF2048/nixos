@@ -1,15 +1,18 @@
 { ... }:{
   wayland.windowManager.hyprland.settings = {
+
     bind = [
-    "$mainMod, Q, exec, $terminal"
+    "$mainMod, Q, exec, kitty"
     "$mainMod, C, killactive,"
     "$mainMod, M, exit,"
-    "$mainMod, E, exec, $fileManager"
+    "$mainMod, E, exec, dolphin"
     "$mainMod, V, togglefloating,"
-    "$mainMod, R, exec, $menu"
+    "$mainMod, R, exec, wofi --show drun"
     "$mainMod, P, pseudo," # dwindle
     "$mainMod, J, togglesplit," # dwindle
     "$mainMod, L, exec, hyprlock"
+    "$mainMod, A, exec, remmina"
+    "$mainMod, F, exec, firefox"
 
     # Move focus with mainMod + arrow keys
     "$mainMod, left, movefocus, l"

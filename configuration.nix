@@ -2,7 +2,7 @@
 # lbhe flfgrz.  Uryc vf ninvynoyr va gur pbasvthengvba.avk(5) zna cntr
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ inputs, config, pkgs, lib, nixvim, home-manager, ... }:
+{ inputs, config, pkgs, lib, home-manager, ... }:
 #let
 #  nixvim = import (builtins.fetchGit {
 #    url = "https://github.com/nix-community/nixvim";
@@ -14,20 +14,19 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      nixvim.nixosModules.nixvim
       (import "${home-manager}/nixos")
     ];
 
   # Bootloader.
- # boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.enable = true;
   boot.loader = {
    efi = {
-    #canTouchEfiVariables = true;
+    canTouchEfiVariables = true;
     #efiSysMountPoint = "/boot";
    };
-   grub = {
-    enable = true;
-    device = "/dev/sda";
+   #grub = {
+   # enable = true;
+   # device = "/dev/sda";
     #useOSProber = true;
     #efiSupport = true;
     #extraEntries = ''
@@ -35,7 +34,7 @@
     #  chainloader (hd0,1)+1
     # }
     #'';
-   };
+   #};
   };
 
   home-manager = {
@@ -57,8 +56,9 @@
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Enable networking
-  networking.networkmanager.enable = true;
-
+  # networking.networkmanager.enable = true;
+  # services.systemd.networkd.enable = true;
+  
   # Set your time zone.
   time.timeZone = "Europe/Moscow";
 
@@ -107,7 +107,15 @@
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
     #media-session.enable = true;
-  };
+    extraConfig.pipewire."10-clock" = {
+      "context.properies" = {
+        "default.clock.rate" = 48000;
+        "default.clock.allowed-rates" = [ 48000 ];
+        "default.clock.quantum" = 1024;
+        "default.clock.min-quantum" = 32;
+        "default.clock.max-quantum" = 8192;
+      };
+    };
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
@@ -158,58 +166,14 @@
     ];
   };
 
-  # Install firefox.
-  programs.firefox.enable = true;
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
-  kitty
-  wofi
-  git
-  chromium
-  fish
-  btop
-  remmina
-  ];
-  
-  programs = {
-   hyprland = {
-     enable = true;
-     xwayland.enable = true;
-   };
-
-   hyprlock.enable = true;
-
-   nixvim = {
-     enable = true;
-     viAlias = true;
-     vimAlias = true;
-     defaultEditor = true;
-
-     colorschemes.catppuccin.enable = true;
-     plugins = {
-     lualine.enable = true;
-     oil.enable = true;
-     };
-   };
-  };
   environment.variables.EDITOR = "nvim";
-  
-  #programs.fish.enable = true;
-  #users.defaultUserShell = pkgs.fish;
+  users.defaultUserShell = pkgs.fish;
+  documentation.man.generateCaches = false;
 
    nix = {
     settings.sandbox = false;
     settings.experimental-features = [ "nix-command" "flakes" ];
   };
-
-
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

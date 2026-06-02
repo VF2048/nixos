@@ -1,9 +1,8 @@
-{ pkgs, host, ... }:
+{ pkgs, ... }:
 {
-  # Styling Options
   stylix = {
     enable = true;
-    image = /home/vfok/Pictures/Wallpapers/mountainscapedark.jpg";
+    image = ../../modules/core/mountainscapedark.jpg;
     # base16Scheme = {
     #   base00 = "282936";
     #   base01 = "3a3c4e";
@@ -23,11 +22,17 @@
     #   base0F = "00f769";
     # };
     polarity = "dark";
-    opacity.terminal = 1.0;
+    opacity.terminal = 0.9;
     cursor = {
       package = pkgs.bibata-cursors;
       name = "Bibata-Modern-Ice";
       size = 24;
+    };
+    targets = {
+      nixvim = {
+        plugin = "base16-nvim";
+        transparentBackground.main = true;
+      };
     };
     fonts = {
       monospace = {

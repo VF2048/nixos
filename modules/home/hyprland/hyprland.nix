@@ -15,7 +15,7 @@
       kb_layout = "us,ru";
       kb_options = "grp:alt_shift_toggle";
       follow_mouse = 1;
-      sensitivity = -0.5;
+      sensitivity = -0.7;
       touchpad = {
        natural_scroll = false;
       };
@@ -23,9 +23,6 @@
 
      general = {
       "$mainMod" = "SUPER";
-      "$terminal" = "kitty";
-      "$fileManager" = "dolphin";
-      "$menu" = "wofi --show drun";
       layout = "dwindle";
       gaps_in = 5;
       gaps_out = 20;
@@ -74,6 +71,9 @@
      monitor=DP-2, preferred, 0x0, auto
      monitor=DP-1, preferred, auto-right, auto
      monitor=HDMI-A-1, preferred, auto-left, auto
+     workspace=1,monitor:DP-2
+     workspace=2,monitor:HDMI-A-1
+     workspace=3,monitor:DP-1
     ";
   };
 }
