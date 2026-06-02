@@ -24,6 +24,7 @@
    ethtool
    nmap
    (firefox.override { nativeMessagingHosts = [ pipewire-screenaudio.packages.${pkgs.system}.default ]; })
+   vscode
    # wineWowPackages.waylandFull
    # winetricks
    # freerdp

@@ -116,7 +116,7 @@
         "default.clock.max-quantum" = 8192;
       };
     };
-
+  };
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
   
@@ -166,7 +166,7 @@
     ];
   };
 
-  environment.variables.EDITOR = "nvim";
+        #environment.variables.EDITOR = "nvim";
   users.defaultUserShell = pkgs.fish;
   documentation.man.generateCaches = false;
 
