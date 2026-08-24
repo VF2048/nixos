@@ -3,18 +3,23 @@
     plugins = {
       treesitter = {
         enable = true;
-
         nixvimInjections = true;
-	grammarPackages = pkgs.vimPlugins.nvim-treesitter.allGrammars;
-
-        folding = true;
+        folding.enable = true;
+        grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
+          nix       
+          bash      
+          markdown 
+          json
+          cpp
+          javascript
+        ];
         settings = {
-	  auto_install = true;
+	        auto_install = false;
           highlight.enable = true;
           indent.enable = true;
         };
       };
-      hmts.enable = true;
+      # hmts.enable = true;
     };
   };
 }

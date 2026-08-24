@@ -7,7 +7,7 @@
           inherit action key;
         }) {
           "<C-Backspace>" = ":Oil .<CR>";
-	      "<Backspace>" = ":Oil<CR>";
+	        "<Backspace>" = ":Oil<CR>";
 
           "<C-s>" = ":w<CR>";
           

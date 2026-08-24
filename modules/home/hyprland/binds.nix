@@ -1,62 +1,101 @@
-{ ... }:{
+{
+  lib,
+  ...
+}:
+let
+  inherit (lib.generators) mkLuaInline;
+
+  # bind com SUPER (variável Lua `mod`, definida em default.nix)
+  m = keys: dsp: {
+    _args = [
+      (mkLuaInline "mod .. \" + ${keys}\"")
+      (mkLuaInline dsp)
+    ];
+  };
+
+  # bind com teclas fixas
+  k = keys: dsp: {
+    _args = [
+      keys
+      (mkLuaInline dsp)
+    ];
+  };
+in
+{
   wayland.windowManager.hyprland.settings = {
 
     bind = [
-    "$mainMod, Q, exec, kitty"
-    "$mainMod, C, killactive,"
-    "$mainMod, M, exit,"
-    "$mainMod, E, exec, dolphin"
-    "$mainMod, V, togglefloating,"
-    "$mainMod, R, exec, wofi --show drun"
-    "$mainMod, P, pseudo," # dwindle
-    "$mainMod, J, togglesplit," # dwindle
-    "$mainMod, L, exec, hyprlock"
-    "$mainMod, A, exec, remmina"
-    "$mainMod, F, exec, firefox"
+    # killactive / exit / togglefloating / pseudo / togglesplit
+    (m "GRAVE" "hl.dsp.exec_cmd(\"kitty\")")
+    (m "Q" "hl.dsp.window.close()")
+    (m "M" "hl.dsp.exit()")
+    (m "V" "hl.dsp.window.float()")
+    (m "P" "hl.dsp.layout(\"pseudo\")")  # dwindle pseudo
+    # (m "J" "hl.dsp.layout(\"togglesplit\")") -- dwindle togglesplit (закомментировано)
 
-    # Move focus with mainMod + arrow keys
-    "$mainMod, left, movefocus, l"
-    "$mainMod, right, movefocus, r"
-    "$mainMod, up, movefocus, u"
-    "$mainMod, down, movefocus, d"
+    # exec программы
+    (m "RETURN" "hl.dsp.exec_cmd(\"wezterm\")")
+    (m "E" "hl.dsp.exec_cmd(\"dolphin\")")
+    # (m "R" "hl.dsp.exec_cmd(\"wofi --show drun\")")
+    # (m "SHIFT + R" "hl.dsp.exec_cmd(\"rofi -show drun\")")
+    (m "A" "hl.dsp.exec_cmd(\"remmina\")")
+    (m "F" "hl.dsp.exec_cmd(\"firefox\")")
+    (m "T" "hl.dsp.exec_cmd(\"kitty --directory ~/nixos -- fish -c  'nix run .#tg-ws-proxy -- --port 1080; exec fish'\")")
 
-    # Switch workspaces with mainMod + [0-9]
-    "$mainMod, 1, workspace, 1"
-    "$mainMod, 2, workspace, 2"
-    "$mainMod, 3, workspace, 3"
-    "$mainMod, 4, workspace, 4"
-    "$mainMod, 5, workspace, 5"
-    "$mainMod, 6, workspace, 6"
-    "$mainMod, 7, workspace, 7"
-    "$mainMod, 8, workspace, 8"
-    "$mainMod, 9, workspace, 9"
-    "$mainMod, 0, workspace, 10"
+    # Caelestia Integrations
+    (m "SHIFT + E" "hl.dsp.exec_cmd(\"pkill fuzzel || caelestia emoji -p\")")
+    (m "X" "hl.dsp.global(\"caelestia:session\")")
+    (m "R" "hl.dsp.global(\"caelestia:launcher\")")
+    (m "N" "hl.dsp.global(\"caelestia:sidebar\")")
+    (m "L" "hl.dsp.global(\"caelestia:lock\")")
+    # (m "S" "hl.dsp.global(\"caelestia:screenshotFreeze\")")
+    (m "C" "hl.dsp.exec_cmd(\"pkill fuzzel || caelestia clipboard\")")
+    (m "SHIFT + A" "hl.dsp.global(\"caelestia:showall\")")
+    # (m "SHIFT + F" "hl.dsp.dispatch(\"fullscreen\")")
+    # (m "SHIFT + F" "hl.dsp.exec_cmd(\"hyprctl dispatch fullscreen 0\")")
 
-    # Move active window to a workspace with mainMod + SHIFT + [0-9]
-    "$mainMod SHIFT, 1, movetoworkspace, 1"
-    "$mainMod SHIFT, 2, movetoworkspace, 2"
-    "$mainMod SHIFT, 3, movetoworkspace, 3"
-    "$mainMod SHIFT, 4, movetoworkspace, 4"
-    "$mainMod SHIFT, 5, movetoworkspace, 5"
-    "$mainMod SHIFT, 6, movetoworkspace, 6"
-    "$mainMod SHIFT, 7, movetoworkspace, 7"
-    "$mainMod SHIFT, 8, movetoworkspace, 8"
-    "$mainMod SHIFT, 9, movetoworkspace, 9"
-    "$mainMod SHIFT, 0, movetoworkspace, 10"
+    # movefocus (Перемещение фокуса стрелками)
+    (m "left" "hl.dsp.focus({ direction = \"left\" })")
+    (m "right" "hl.dsp.focus({ direction = \"right\" })")
+    (m "up" "hl.dsp.focus({ direction = \"up\" })")
+    (m "down" "hl.dsp.focus({ direction = \"down\" })")
 
-    # Example special workspace (scratchpad)
-    "$mainMod, S, togglespecialworkspace, magic"
-    "$mainMod SHIFT, S, movetoworkspace, special:magic"
+    # workspace (Переключение воркспейсов 1-10)
+    (m "1" "hl.dsp.focus({ workspace = \"1\" })")
+    (m "2" "hl.dsp.focus({ workspace = \"2\" })")
+    (m "3" "hl.dsp.focus({ workspace = \"3\" })")
+    (m "4" "hl.dsp.focus({ workspace = \"4\" })")
+    (m "5" "hl.dsp.focus({ workspace = \"5\" })")
+    (m "6" "hl.dsp.focus({ workspace = \"6\" })")
+    (m "7" "hl.dsp.focus({ workspace = \"7\" })")
+    (m "8" "hl.dsp.focus({ workspace = \"8\" })")
+    (m "9" "hl.dsp.focus({ workspace = \"9\" })")
+    (m "0" "hl.dsp.focus({ workspace = \"10\" })")
 
-    # Scroll through existing workspaces with mainMod + scroll
-    "$mainMod, mouse_down, workspace, e+1"
-    "$mainMod, mouse_up, workspace, e-1"
+    # movetoworkspace (Перенос окна на воркспейс с переключением фокуса)
+    (m "SHIFT + 1" "hl.dsp.window.move({ workspace = \"1\", follow = true })")
+    (m "SHIFT + 2" "hl.dsp.window.move({ workspace = \"2\", follow = true })")
+    (m "SHIFT + 3" "hl.dsp.window.move({ workspace = \"3\", follow = true })")
+    (m "SHIFT + 4" "hl.dsp.window.move({ workspace = \"4\", follow = true })")
+    (m "SHIFT + 5" "hl.dsp.window.move({ workspace = \"5\", follow = true })")
+    (m "SHIFT + 6" "hl.dsp.window.move({ workspace = \"6\", follow = true })")
+    (m "SHIFT + 7" "hl.dsp.window.move({ workspace = \"7\", follow = true })")
+    (m "SHIFT + 8" "hl.dsp.window.move({ workspace = \"8\", follow = true })")
+    (m "SHIFT + 9" "hl.dsp.window.move({ workspace = \"9\", follow = true })")
+    (m "SHIFT + 0" "hl.dsp.window.move({ workspace = \"10\", follow = true })")
 
-    ];
+    # Special workspace (Специальный воркспейс / scratchpad)
+    # (m "S" "hl.dsp.special_workspace({ name = \"special:magic\", toggle = true })")
+    (m "S" "hl.dsp.workspace.toggle_special(\"magic\")")
+    (m "SHIFT + S" "hl.dsp.window.move({ workspace = \"special:magic\", follow = true })")
 
-    bindm = [
-     "$mainMod, mouse:272, movewindow"
-     "$mainMod, mouse:273, resizewindow"
+    # Колесо мыши (Прокрутка воркспейсов)
+    (m "mouse_down" "hl.dsp.focus({ workspace = \"e+1\" })")
+    (m "mouse_up" "hl.dsp.focus({ workspace = \"e-1\" })")
+
+    # bindm: Перетаскивание и ресайз мышью
+    (m "mouse:272" "hl.dsp.window.drag()")
+    (m "mouse:273" "hl.dsp.window.resize()")
     ];
   };
 }

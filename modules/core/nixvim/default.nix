@@ -1,4 +1,4 @@
-{ nixvim, ... }: {
+{ nixvim, pkgs, ... }: {
    imports = [
      nixvim.nixosModules.nixvim
      ./keymaps.nix
@@ -11,6 +11,7 @@
      viAlias = true;
      vimAlias = true;
      defaultEditor = true;
+     nixpkgs.source = pkgs.path;
 
      colorschemes.catppuccin.enable = true;
      plugins = {
