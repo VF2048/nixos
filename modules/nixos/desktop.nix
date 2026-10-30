@@ -39,11 +39,9 @@
   services.blueman.enable = true;               # менеджер bluetooth (GUI)
 
   # --- Политика питания ----------------------------------------------------
-  # Отключаем цели sleep/suspend/hybrid-sleep, чтобы система не засыпала.
-  systemd.targets.sleep.enable = false;
-  systemd.targets.suspend.enable = false;
-  systemd.targets.hybrid-sleep.enable = false;
-  # ВНИМАНИЕ: hibernate оставлен включённым (true) — вероятно, это опечатка
-  # и имелось в виду false. Оставлено как было.
+  # Разрешаем systemd управлять обычным сном, гибридным сном и гибернацией.
+  systemd.targets.sleep.enable = true;
+  systemd.targets.suspend.enable = true;
+  systemd.targets.hybrid-sleep.enable = true;
   systemd.targets.hibernate.enable = true;
 }

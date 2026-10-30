@@ -9,6 +9,18 @@ in
 {
   wayland.windowManager.hyprland.settings.on = [
     {
+      # В Lua-конфигурации Home Manager exec-once генерирует несуществующий
+      # hl.exec-once; запускаем приложение на событии старта Hyprland.
+      _args = [
+        "hyprland.start"
+        (lua ''
+          function()
+            hl.exec_cmd("bitwarden")
+          end
+        '')
+      ];
+    }
+    {
       # Обработчик события hyprland.start — выполняется один раз при запуске.
       _args = [
         "hyprland.start"

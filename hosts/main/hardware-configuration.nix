@@ -18,18 +18,18 @@
 
   # Корневой раздел.
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/bd0c2c9d-cc7c-4c71-a3df-9c27b392826d";
+    device = "/dev/disk/by-uuid/300a976d-690b-42b9-bc70-9eae3e538cd1";
     fsType = "ext4";
   };
 
   # EFI-раздел; fmask/dmask=0077 — доступ только для root.
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/3FD5-487F";
+    device = "/dev/disk/by-uuid/02E9-B827";
     fsType = "vfat";
     options = [ "fmask=0077" "dmask=0077" ];
   };
 
-  swapDevices = [ { device = "/dev/disk/by-uuid/b6e4c3bc-177f-4506-83c8-1d971fe21641"; } ];
+  swapDevices = [ { device = "/dev/disk/by-uuid/76a1cb13-4529-46ab-a351-c5bdc1ab142a"; } ];
 
   # DHCP на всех интерфейсах (скриптовая сеть NixOS).
   networking.useDHCP = lib.mkDefault true;

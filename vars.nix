@@ -195,7 +195,7 @@
   # ---------------------------------------------------------------------------
   zapret = {
     # Стратегия из каталога configs апстрима.
-    configName = "general(ALT9)";
+    configName = "general(ALT12)";
     # Фильтр игровых портов: "null" (выкл.), "all", "tcp" или "udp".
     gameFilter = "udp";
     # Дополнительные домены для обхода (list-general-user.txt).
