@@ -265,6 +265,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-pinetab": {
+      "locked": {
+        "lastModified": 1792773339,
+        "narHash": "sha256-rZLrzrC6i+jnTAlvPZHogKDulY7WWDEv9hJeHieO7Zw=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "3ec636362e1816bc2f0888fa0fa2c69f1bc9e504",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "3ec636362e1816bc2f0888fa0fa2c69f1bc9e504",
+        "type": "github"
+      }
+    },
     "nixpkgs_2": {
       "locked": {
         "lastModified": 1790510107,
@@ -426,6 +442,7 @@
         "caelestia-shell": "caelestia-shell",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
+        "nixpkgs-pinetab": "nixpkgs-pinetab",
         "nixvim": "nixvim",
         "opencode": "opencode",
         "pipewire-screenaudio": "pipewire-screenaudio",

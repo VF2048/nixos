@@ -10,6 +10,10 @@
     # Основной репозиторий пакетов — стабильная ветка 26.05.
     nixpkgs.url = "github:NixOS/nixpkgs/release-26.05";
 
+    # Отдельный nixpkgs для PineTab-V: ревизия совпадает с устройством
+    # (версия 26.11). Не follows, чтобы не менять основной nixpkgs для main.
+    nixpkgs-pinetab.url = "github:NixOS/nixpkgs/3ec636362e1816bc2f0888fa0fa2c69f1bc9e504";
+
     # Telegram WebSocket-прокси (пакет и app экспортируются ниже в outputs).
     tg-ws-proxy.url = "github:pialtor/tg-ws-proxy-flake";
 
@@ -66,6 +70,13 @@
         #   inputs — все входы flake, vars — файл vars.nix.
         specialArgs = { inherit inputs vars; };
         modules = [ ./hosts/main ];
+      };
+
+      # PineTab-V (riscv64, SD-карта). Не пересекается с main: отдельный хост.
+      nixosConfigurations.pinetabv = inputs.nixpkgs-pinetab.lib.nixosSystem {
+        system = "riscv64-linux";
+        specialArgs = { inherit vars; inputs = inputs // { nixpkgs = inputs.nixpkgs-pinetab; }; };
+        modules = [ ./hosts/pinetabv ];
       };
     };
 }
