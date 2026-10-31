@@ -20,7 +20,11 @@
     Unit.Description = "OpenAI OAuth local API proxy";
     Service = {
       ExecStart = "${pkgs.nodejs}/bin/npx --yes openai-oauth";
-      Environment = "PATH=${pkgs.nodejs}/bin";
+      # npx запускает скрипты через `sh`, поэтому в PATH нужен shell и coreutils.
+      Environment = [
+        "PATH=${pkgs.nodejs}/bin:${pkgs.bash}/bin:${pkgs.coreutils}/bin:/run/current-system/sw/bin"
+        "HOME=%h"
+      ];
       Restart = "on-failure";
       RestartSec = "5s";
     };

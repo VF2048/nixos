@@ -10,7 +10,8 @@
       cudaSupport = true;
     };
     settings = {
-      vim_keys = true;           # навигация клавишами h/j/k/l
+      # vim_keys отключён: при true btop не реагирует на +/- (смена интервала).
+      vim_keys = false;
       rounded_corners = true;    # скруглённые углы рамок
       proc_tree = true;          # процессы деревом
       show_gpu_info = "on";      # показывать блок GPU

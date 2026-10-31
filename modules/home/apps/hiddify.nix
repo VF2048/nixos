@@ -37,12 +37,26 @@ let
     genericName = "VPN Client";
     comment = "Universal proxy client based on sing-box";
     exec = "${hiddify-pkg}/bin/hiddify";
-    icon = "hiddify"; # ВНИМАНИЕ: иконки с таким именем в системе нет — ярлык будет без значка
+    icon = "hiddify";
     terminal = false;
     categories = [ "Network" "Utility" ];
     keywords = [ "vpn" "proxy" "sing-box" ];
   };
+
+  # Иконка лежит внутри AppImage, а в системе с таким именем её нет.
+  # Извлекаем её и кладём в hicolor, чтобы Caelestia и другие оболочки нашли `hiddify`.
+  hiddify-icons = pkgs.runCommand "hiddify-icons" { } ''
+    mkdir -p $out/share/icons/hicolor
+    cp -r ${(pkgs.appimageTools.extractType2 {
+      pname = "hiddify";
+      inherit version;
+      src = pkgs.fetchurl {
+        url = "https://github.com/hiddify/hiddify-app/releases/download/v${version}/Hiddify-Linux-x64-AppImage.AppImage";
+        hash = vars.hiddify.hash;
+      };
+    })}/usr/share/icons/hicolor/. $out/share/icons/hicolor/
+  '';
 in
 {
-  home.packages = [ hiddify-pkg hiddify-desktop ];
+  home.packages = [ hiddify-pkg hiddify-desktop hiddify-icons ];
 }

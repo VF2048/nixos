@@ -4,7 +4,13 @@
   # Параметры ядра для NVIDIA на Wayland:
   #   nvidia-drm.modeset=1 — режим modesetting (нужен для Wayland);
   #   nvidia_drm.fbdev=1   — framebuffer-консоль на драйвере NVIDIA.
-  boot.kernelParams = [ "nvidia-drm.modeset=1" "nvidia_drm.fbdev=1" ];
+  # nvidia.NVreg_PreserveVideoMemoryAllocations=1 — сохранять видеопамять при
+  # сне/гибернации, без этого hibernate на NVIDIA часто недоступен.
+  boot.kernelParams = [
+    "nvidia-drm.modeset=1"
+    "nvidia_drm.fbdev=1"
+    "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
+  ];
 
   # Включает OpenGL/Vulkan (hardware.graphics заменила hardware.opengl).
   hardware.graphics.enable = true;

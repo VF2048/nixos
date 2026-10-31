@@ -39,6 +39,8 @@
       url = "github:danth/stylix/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # NUR — пакеты расширений Firefox (repos.rycee.firefox-addons).
+    nur.url = "github:nix-community/NUR";
     # Захват звука отдельных приложений в Firefox (native messaging host).
     pipewire-screenaudio = {
       url = "github:IceDBorn/pipewire-screenaudio";
