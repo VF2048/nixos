@@ -89,6 +89,13 @@
     powerOnBoot = true;
   };
 
+  # Mesa/GBM для композитора: без этого нет /run/opengl-driver и GBM на /dev/dri/card1 не создаётся.
+  hardware.graphics = {
+    enable = true;
+    package = pkgs.callPackage ./mesa.nix { mesa = pkgs.mesa; };
+    extraPackages = [ pkgs.libglvnd ];
+  };
+
   services.openssh = {
     enable = true;
     settings = {

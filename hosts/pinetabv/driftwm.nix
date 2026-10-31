@@ -16,7 +16,12 @@ pkgs.rustPlatform.buildRustPackage {
       "smithay-0.7.0" = "sha256-2aurK1dZAD49FTYURzZuQkBM07woZB/rNymF0fuSbR8=";
     };
   };
-  nativeBuildInputs = [ pkgs.pkg-config ];
+  nativeBuildInputs = [ pkgs.pkg-config pkgs.makeWrapper ];
+  # smithay открывает libEGL через dlopen, поэтому путь к драйверам задаём явно.
+  postFixup = ''
+    wrapProgram $out/bin/driftwm \
+      --prefix LD_LIBRARY_PATH : /run/opengl-driver/lib
+  '';
   buildInputs = with pkgs; [
     wayland
     wayland-protocols
