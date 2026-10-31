@@ -47,11 +47,16 @@
   boot.loader.generic-extlinux-compatible = {
     enable = true;
     configurationLimit = 20;
+    # extlinux.conf читает U-Boot с NIXBOOT (/boot/firmware), а не с /boot на корне.
+    mirroredBoots = [ { path = "/boot/firmware"; } ];
   };
   boot.loader.timeout = 3;
   boot.loader.grub.enable = false;
 
   # extlinux и ядро лежат на NIXBOOT (/boot/firmware), как на устройстве.
+  # sd-image по умолчанию ставит noauto: тогда switch не обновляет extlinux.conf.
+  fileSystems."/boot/firmware".options = lib.mkForce [ "nofail" ];
+
   sdImage = {
     # Метки как на устройстве: корень NIXROOT, загрузка NIXBOOT (см. /etc/fstab на планшете).
     rootVolumeLabel = "NIXROOT";
